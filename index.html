@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f3">
+  <meta name="description" content="Meet TrackAI, a health and fitness tracking app in development. Explore the vision and join the build.">
+  <title>TrackAI | AI Health Companion</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f7f8f3;
+      --surface: #fff;
+      --ink: #14231d;
+      --muted: #63736b;
+      --line: #e1e8e0;
+      --green: #147b55;
+      --green-dark: #0d6243;
+      --mint: #dff2e8;
+      --lime: #d8f36a;
+      --blue: #e6efff;
+      --shadow: 0 22px 60px rgba(21, 48, 37, .09);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    a:focus-visible { outline: 3px solid #6d55cf; outline-offset: 4px; border-radius: 5px; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+    .topbar { padding: 22px 0; }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 780; letter-spacing: -.04em; font-size: 1.2rem; }
+    .brand-mark { display: grid; place-items: center; width: 35px; height: 35px; border-radius: 12px; color: #fff; background: var(--green); }
+    .brand-mark svg { width: 20px; height: 20px; }
+    .nav-links { display: flex; align-items: center; gap: 26px; font-size: .91rem; color: var(--muted); }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--green-dark); }
+    .nav-cta, .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border-radius: 999px; padding: 12px 18px; font-weight: 700; text-decoration: none; transition: transform .18s ease, background .18s ease; }
+    .nav-cta, .button-primary { color: white; background: var(--green); }
+    .nav-cta:hover, .button-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+    .nav-actions { display: flex; align-items: center; gap: 9px; }
+    .nav-cta-secondary { border: 1px solid var(--line); color: var(--green-dark); background: white; }
+    .nav-cta-secondary:hover { transform: translateY(-2px); background: #f1f7f2; }
+    .button-secondary { color: var(--ink); background: #fff; border: 1px solid var(--line); }
+    .button-secondary:hover { transform: translateY(-2px); }
+    .hero { padding: 66px 0 92px; }
+    .hero-grid { display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; gap: 50px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--green-dark); font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; background: #90bd42; border-radius: 50%; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 650px; margin: 17px 0 20px; font-size: clamp(3.2rem, 6vw, 5.35rem); line-height: .99; letter-spacing: -.075em; }
+    h1 span { color: var(--green); }
+    .hero-copy { max-width: 560px; color: var(--muted); font-size: 1.12rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .collaborator-callout { display: flex; align-items: flex-start; gap: 10px; max-width: 550px; margin-top: 24px; padding: 14px 16px; border: 1px solid #cfe4d5; border-radius: 15px; color: #174b35; background: #e9f6ec; font-size: .91rem; font-weight: 700; }
+    .collaborator-callout span { flex: 0 0 auto; }
+    .hero-note { margin: 22px 0 0; color: #748279; font-size: .84rem; }
+    .visual { position: relative; min-height: 450px; display: grid; place-items: center; }
+    .orbit { position: absolute; width: 390px; height: 390px; border-radius: 50%; background: radial-gradient(circle at 36% 35%, #e7f8bd 0, #d9f1e4 51%, #e9f1e8 100%); }
+    .orbit::before, .orbit::after { content: ""; position: absolute; border: 1px solid rgba(20, 123, 85, .15); border-radius: 50%; inset: 28px; }
+    .orbit::after { inset: 62px; }
+    .phone { z-index: 1; position: relative; width: 238px; padding: 13px; border: 1px solid rgba(22, 47, 37, .12); border-radius: 35px; background: #14231d; box-shadow: 0 25px 55px rgba(20, 40, 30, .2); transform: rotate(-4deg); }
+    .phone-screen { min-height: 390px; padding: 20px 17px; overflow: hidden; border-radius: 25px; background: #f9fbf7; }
+    .phone-top { display: flex; justify-content: space-between; align-items: center; font-size: .7rem; font-weight: 750; }
+    .avatar { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; color: #255d44; background: #d9edcc; }
+    .phone-screen h3 { margin: 22px 0 3px; font-size: 1.1rem; letter-spacing: -.04em; }
+    .phone-screen .small { margin: 0; color: #718078; font-size: .67rem; }
+    .score-card { margin-top: 17px; padding: 14px; color: white; border-radius: 17px; background: #157b55; }
+    .score-label { font-size: .65rem; opacity: .82; }
+    .score-number { display: flex; align-items: baseline; gap: 5px; margin-top: 4px; font-size: 1.8rem; font-weight: 780; letter-spacing: -.06em; }
+    .score-number span { font-size: .66rem; font-weight: 500; letter-spacing: 0; opacity: .8; }
+    .bars { display: flex; align-items: end; gap: 6px; height: 37px; margin-top: 11px; }
+    .bars i { flex: 1; border-radius: 5px 5px 2px 2px; background: #a5e1b6; }
+    .bars i:nth-child(1) { height: 38%; }.bars i:nth-child(2) { height: 58%; }.bars i:nth-child(3) { height: 48%; }.bars i:nth-child(4) { height: 78%; }.bars i:nth-child(5) { height: 61%; }.bars i:nth-child(6) { height: 92%; }.bars i:nth-child(7) { height: 72%; background: #dcf46a; }
+    .metric-list { display: grid; gap: 8px; margin-top: 12px; }
+    .metric { display: flex; align-items: center; gap: 9px; padding: 9px 10px; border: 1px solid #e9eee6; border-radius: 12px; background: #fff; }
+    .metric-icon { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 8px; font-size: .78rem; background: #edf6dd; }
+    .metric-label { flex: 1; color: #718078; font-size: .61rem; }
+    .metric strong { font-size: .7rem; }
+    .float-card { position: absolute; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid rgba(20, 40, 30, .08); border-radius: 15px; background: white; box-shadow: var(--shadow); font-size: .77rem; font-weight: 700; }
+    .float-card span:first-child { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 10px; background: var(--lime); }
+    .float-one { top: 48px; right: 3px; }.float-two { left: 0; bottom: 52px; }.float-two span:first-child { background: var(--blue); }
+    section { scroll-margin-top: 24px; }
+    .section { padding: 86px 0; }
+    .section-head { max-width: 680px; margin-bottom: 35px; }
+    h2 { margin: 12px 0 12px; font-size: clamp(2.15rem, 4vw, 3.25rem); line-height: 1.05; letter-spacing: -.065em; }
+    .section-intro { max-width: 620px; color: var(--muted); font-size: 1.02rem; }
+    .vision { padding: 74px 0; background: #edf4eb; }
+    .vision-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 64px; align-items: start; }
+    .vision-aside { padding: 24px; border: 1px solid #dce8dc; border-radius: var(--radius); background: rgba(255,255,255,.72); }
+    .vision-aside strong { display: block; margin-bottom: 8px; font-size: 1.02rem; }
+    .vision-aside p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .feature { min-height: 190px; padding: 23px; border: 1px solid var(--line); border-radius: 19px; background: var(--surface); }
+    .feature-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 20px; border-radius: 13px; background: var(--mint); font-size: 1.15rem; }
+    .feature:nth-child(2) .feature-icon, .feature:nth-child(5) .feature-icon { background: #f0edff; }
+    .feature:nth-child(3) .feature-icon, .feature:nth-child(6) .feature-icon { background: #fff3d9; }
+    .feature h3 { margin-bottom: 7px; font-size: 1rem; letter-spacing: -.025em; }
+    .feature p { margin: 0; color: var(--muted); font-size: .87rem; }
+    .build { background: #fff; }
+    .build-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .build-panel { padding: 30px; border-radius: var(--radius); color: white; background: #172a22; }
+    .build-panel .eyebrow { color: #c8ec91; }
+    .build-panel h3 { margin: 16px 0 10px; font-size: 1.55rem; letter-spacing: -.04em; }
+    .build-panel p { margin: 0; color: #c0cec6; }
+    .stack { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 24px; }
+    .stack span { padding: 8px 11px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; color: #f4f8f1; font-size: .79rem; }
+    .build-list { display: grid; gap: 21px; }
+    .build-item { display: grid; grid-template-columns: 38px 1fr; gap: 14px; }
+    .build-num { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; color: var(--green-dark); background: var(--mint); font-weight: 800; }
+    .build-item h3 { margin: 1px 0 5px; font-size: 1rem; }
+    .build-item p { margin: 0; color: var(--muted); font-size: .91rem; }
+    .collab { background: #f1f4ff; }
+    .collab .eyebrow { color: #51459b; }
+    .collab .eyebrow::before { background: #8174d8; }
+    .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 45px; align-items: start; }
+    .benefits { display: grid; gap: 12px; }
+    .benefit { display: flex; gap: 13px; padding: 17px; border: 1px solid #e1e4f4; border-radius: 16px; background: rgba(255,255,255,.8); }
+    .check { flex: 0 0 25px; display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; color: #fff; background: #6556b5; font-size: .75rem; font-weight: 800; }
+    .benefit strong { display: block; margin-bottom: 3px; font-size: .94rem; }
+    .benefit p { margin: 0; color: var(--muted); font-size: .85rem; }
+    .invite-card { padding: 29px; border: 1px solid #dfe2f1; border-radius: var(--radius); background: white; box-shadow: 0 20px 45px rgba(45, 43, 93, .06); }
+    .invite-card h3 { margin-bottom: 9px; font-size: 1.35rem; letter-spacing: -.04em; }
+    .invite-card > p { color: var(--muted); font-size: .93rem; }
+    .steps { display: grid; gap: 12px; margin: 21px 0 25px; padding: 0; list-style: none; counter-reset: steps; }
+    .steps li { display: flex; align-items: flex-start; gap: 10px; color: #46564e; font-size: .88rem; counter-increment: steps; }
+    .steps li::before { content: counter(steps); display: grid; place-items: center; flex: 0 0 23px; height: 23px; border-radius: 50%; background: #edf0ff; color: #51459b; font-size: .72rem; font-weight: 800; }
+    .link-placeholder { margin-top: 17px; padding-top: 15px; border-top: 1px solid var(--line); color: #718078; font-size: .78rem; }
+    .link-placeholder strong { color: var(--ink); }
+    .footer { padding: 28px 0 38px; color: var(--muted); font-size: .82rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; align-items: center; border-top: 1px solid var(--line); padding-top: 23px; }
+    .footer .brand { color: var(--ink); font-size: 1rem; }
+    .footer .brand-mark { width: 29px; height: 29px; border-radius: 10px; }
+    .app-showcase { background: #f7f8f3; }
+    .screen-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .screen-card { overflow: hidden; border: 1px solid var(--line); border-radius: 21px; background: var(--surface); box-shadow: 0 14px 35px rgba(21, 48, 37, .05); }
+    .screen-art { min-height: 230px; display: grid; place-items: center; padding: 22px; background: linear-gradient(145deg, #e5f3df, #f3f6e9); }
+    .screen-card:nth-child(2) .screen-art { background: linear-gradient(145deg, #e8edff, #f4f1ff); }
+    .screen-card:nth-child(3) .screen-art { background: linear-gradient(145deg, #fff0d7, #f9f4e8); }
+    .mini-panel { width: min(100%, 240px); padding: 17px; border: 1px solid rgba(20,40,30,.08); border-radius: 18px; background: white; box-shadow: 0 13px 30px rgba(20,40,30,.1); }
+    .mini-panel strong { display: block; margin: 2px 0 8px; font-size: .92rem; letter-spacing: -.03em; }
+    .mini-panel small { color: var(--muted); font-size: .68rem; }
+    .mini-line { height: 8px; margin-top: 9px; border-radius: 99px; background: #edf1ec; }
+    .mini-line.green { width: 72%; background: #b9dfc5; }
+    .mini-line.purple { width: 84%; background: #d6d0f5; }
+    .mini-line.orange { width: 62%; background: #f6d69a; }
+    .screen-copy { padding: 18px 19px 20px; }
+    .screen-copy h3 { margin: 0 0 5px; font-size: 1rem; }
+    .screen-copy p { margin: 0; color: var(--muted); font-size: .85rem; }
+    .download { color: white; background: #172a22; text-align: center; }
+    .download .eyebrow { color: #c8ec91; }
+    .download .eyebrow::before { background: #c8ec91; }
+    .download h2 { max-width: 720px; margin: 14px auto; }
+    .download-copy { max-width: 640px; margin: 0 auto 25px; color: #c0cec6; }
+    .store-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 23px 0; }
+    .store-chip { min-width: 195px; padding: 13px 17px; border: 1px solid rgba(255,255,255,.2); border-radius: 14px; text-align: left; }
+    .store-chip strong, .store-chip span { display: block; }
+    .store-chip strong { font-size: .91rem; }
+    .store-chip span { margin-top: 2px; color: #c0cec6; font-size: .76rem; }
+    .download .button-secondary { color: var(--ink); }
+    .download-note { margin: 13px 0 0; color: #a9bbb0; font-size: .77rem; }
+    @media (max-width: 850px) {
+      .hero-grid, .vision-grid, .build-grid, .collab-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 45px; }
+      .visual { min-height: 430px; }
+      .vision-grid, .build-grid, .collab-grid { gap: 32px; }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .screen-grid { grid-template-columns: 1fr 1fr; }
+      .screen-card:last-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 30px, 1120px); }
+      .topbar { padding: 15px 0; }
+      .nav-links { display: none; }
+      .nav { flex-wrap: wrap; }
+      .nav-actions { width: 100%; }
+      .nav-actions .nav-cta { flex: 1; padding: 10px 9px; font-size: .79rem; }
+      .hero { padding: 38px 0 60px; }
+      h1 { font-size: clamp(3.05rem, 16vw, 4rem); }
+      .hero-copy { font-size: 1rem; }
+      .visual { min-height: 370px; transform: scale(.91); margin: -5px -15px; }
+      .orbit { width: 330px; height: 330px; }
+      .phone { width: 215px; }
+      .phone-screen { min-height: 355px; }
+      .float-one { right: 0; top: 17px; }.float-two { left: 1px; bottom: 17px; }
+      .section { padding: 62px 0; }
+      .vision { padding: 58px 0; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .screen-grid { grid-template-columns: 1fr; }
+      .screen-card:last-child { grid-column: auto; }
+      .feature { min-height: 0; }
+      .feature-icon { margin-bottom: 13px; }
+      .build-panel, .invite-card { padding: 23px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="TrackAI home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 13h4l2.1-6 3.8 11 2.1-5H20" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        TrackAI
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#features">Features</a><a href="#screens">App</a><a href="#download">Download</a><a href="#build">Build</a><a href="#collaborate">Collaborate</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-cta nav-cta-secondary" href="#collaborate">Collaborate <span aria-hidden="true">↗</span></a>
+        <a class="nav-cta" href="https://expo.dev/accounts/dhanushv3/projects/TrackAI/builds/3a7ce7f2-cdfd-4448-8cd1-84f0d5c50c76" target="_blank" rel="noopener noreferrer">Download APK <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">AI-powered health tracking, in development</span>
+          <h1 id="hero-title">Your health.<br><span>Powered by AI.</span></h1>
+          <p class="hero-copy">Track steps, nutrition, progress, and daily habits in one place. TrackAI is being built as an intelligent health companion, with helpful insights designed around your lifestyle.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#collaborate">Build with us <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="#vision">Explore the vision</a>
+          </div>
+          <div class="collaborator-callout"><span aria-hidden="true">✦</span><span>We’re looking for collaborators! Developers, designers, testers, and product thinkers are welcome.</span></div>
+          <p class="hero-note">An early-stage project, shaped by thoughtful collaboration.</p>
+        </div>
+        <div class="visual" role="img" aria-label="Illustration of a wellness dashboard with sample progress, water, steps, and nutrition cards">
+          <div class="orbit" aria-hidden="true"></div>
+          <div class="float-card float-one" aria-hidden="true"><span>✦</span><span>Small steps add up</span></div>
+          <div class="float-card float-two" aria-hidden="true"><span>↗</span><span>Your progress, at a glance</span></div>
+          <div class="phone" aria-hidden="true">
+            <div class="phone-screen">
+              <div class="phone-top"><span>9:41</span><span class="avatar">●</span></div>
+              <h3>Your week</h3><p class="small">A little progress every day.</p>
+              <div class="score-card"><div class="score-label">Weekly activity</div><div class="score-number">4.8 <span>active days</span></div><div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+              <div class="metric-list">
+                <div class="metric"><span class="metric-icon">🥤</span><span class="metric-label">Water</span><strong>6 / 8 glasses</strong></div>
+                <div class="metric"><span class="metric-icon">👟</span><span class="metric-label">Steps</span><strong>7,240</strong></div>
+                <div class="metric"><span class="metric-icon">🍎</span><span class="metric-label">Nutrition</span><strong>1,680 kcal</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="vision" id="vision" aria-labelledby="vision-title">
+      <div class="wrap vision-grid">
+        <div>
+          <span class="eyebrow">The vision</span>
+          <h2 id="vision-title">The whole picture, without the pressure.</h2>
+          <p class="section-intro">Health habits are connected. TrackAI aims to make the everyday signals easier to follow, with a welcoming experience that supports progress instead of perfection.</p>
+          <div class="vision-aside"><strong>Designed for real life</strong><p>Clear summaries, flexible themes, and encouraging milestones help make tracking feel approachable—whatever your starting point.</p></div>
+        </div>
+        <div class="feature-grid" id="features" aria-label="TrackAI feature areas in development">
+          <article class="feature"><div class="feature-icon" aria-hidden="true">🚶</div><h3>Step tracking</h3><p>Track daily movement, with Health Connect as part of the planned Android experience.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">🤖</div><h3>AI health assistant</h3><p>Build toward personalized recommendations and useful everyday insights.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">🥗</div><h3>Nutrition intelligence</h3><p>Explore meal and calorie tracking to support more mindful food habits.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">💧</div><h3>Water habits</h3><p>Keep hydration visible and build a routine that works for you.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">📈</div><h3>Progress analytics</h3><p>Follow weight and other changes over time with visual reports.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">🔥</div><h3>Streaks & badges</h3><p>Mark consistency and give small wins a reason to feel meaningful.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">🌗</div><h3>Light & dark themes</h3><p>Choose a visual mode that feels comfortable throughout the day.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section app-showcase" id="screens" aria-labelledby="screens-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">The app</span>
+          <h2 id="screens-title">Experience TrackAI.</h2>
+          <p class="section-intro">A glimpse of the connected daily experience the team is working toward.</p>
+        </div>
+        <div class="screen-grid">
+          <article class="screen-card"><div class="screen-art" aria-hidden="true"><div class="mini-panel"><small>YOUR DAY</small><strong>Daily dashboard</strong><small>Steps · water · nutrition</small><div class="mini-line green"></div><div class="mini-line"></div><div class="mini-line" style="width:58%"></div></div></div><div class="screen-copy"><h3>One clear overview</h3><p>Bring daily activity and habits together in one place.</p></div></article>
+          <article class="screen-card"><div class="screen-art" aria-hidden="true"><div class="mini-panel"><small>YOUR JOURNEY</small><strong>Progress analytics</strong><small>See how things change over time</small><div class="mini-line purple"></div><div class="mini-line" style="width:62%"></div><div class="mini-line purple" style="width:48%"></div></div></div><div class="screen-copy"><h3>Progress that makes sense</h3><p>Use visual reports to reflect on trends and milestones.</p></div></article>
+          <article class="screen-card"><div class="screen-art" aria-hidden="true"><div class="mini-panel"><small>FOOD & FUEL</small><strong>Nutrition tracking</strong><small>Meals · calories · daily goals</small><div class="mini-line orange"></div><div class="mini-line" style="width:72%"></div><div class="mini-line orange" style="width:52%"></div></div></div><div class="screen-copy"><h3>Everyday nutrition</h3><p>Make meal and calorie tracking part of the bigger picture.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section build" id="build" aria-labelledby="build-title">
+      <div class="wrap build-grid">
+        <div>
+          <span class="eyebrow">The build approach</span>
+          <h2 id="build-title">A thoughtful product, built together.</h2>
+          <p class="section-intro">We’re developing TrackAI as a cross-platform mobile app. The work brings together product thinking, interface design, reliable data, and steady iteration.</p>
+          <div class="build-panel">
+            <span class="eyebrow">Our toolkit</span>
+            <h3>Modern mobile foundations</h3>
+            <p>Building with technologies that support a clear, maintainable app as it grows.</p>
+            <div class="stack" aria-label="Project technologies"><span>React Native</span><span>Expo</span><span>TypeScript</span><span>APIs</span></div>
+          </div>
+        </div>
+        <div class="build-list">
+          <article class="build-item"><span class="build-num">01</span><div><h3>Start with useful everyday flows</h3><p>Shape the core experiences around nutrition, water, movement, and progress tracking.</p></div></article>
+          <article class="build-item"><span class="build-num">02</span><div><h3>Connect data with care</h3><p>Use APIs where they help the app provide relevant information and a more connected experience.</p></div></article>
+          <article class="build-item"><span class="build-num">03</span><div><h3>Refine as a team</h3><p>Share work in small steps, review changes together, and improve the product as we learn.</p></div></article>
+          <article class="build-item"><span class="build-num">04</span><div><h3>Keep the experience welcoming</h3><p>Make room for accessibility, light and dark themes, and clear feedback at each stage.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section collab" id="collaborate" aria-labelledby="collab-title">
+      <div class="wrap collab-grid">
+        <div>
+          <span class="eyebrow">Open invitation</span>
+          <h2 id="collab-title">We’re looking for collaborators to build TrackAI with us.</h2>
+          <p class="section-intro">We welcome collaborators who want to learn, share ideas, and contribute to a real product in progress. Whether your strengths are in code, design, testing, or product thinking, there’s room to grow together.</p>
+          <div class="benefits">
+            <div class="benefit"><span class="check" aria-hidden="true">✓</span><div><strong>Experience on a larger real-world project</strong><p>See how ideas turn into features across a growing app.</p></div></div>
+            <div class="benefit"><span class="check" aria-hidden="true">✓</span><div><strong>Practice working as a team</strong><p>Coordinate tasks, communicate clearly, and learn from shared decisions.</p></div></div>
+            <div class="benefit"><span class="check" aria-hidden="true">✓</span><div><strong>Learn code review and GitHub workflows</strong><p>Get practical experience contributing, reviewing, and improving code together.</p></div></div>
+            <div class="benefit"><span class="check" aria-hidden="true">✓</span><div><strong>Grow your portfolio</strong><p>Build experience you can reflect on and showcase in your own way.</p></div></div>
+          </div>
+        </div>
+        <aside class="invite-card" id="project-links" aria-labelledby="invite-title">
+          <h3 id="invite-title">Interested in contributing?</h3>
+          <p>Start a conversation and tell us what you’d like to learn or work on. We can find a useful first step together.</p>
+          <ol class="steps">
+            <li>Explore the project and the areas that interest you.</li>
+            <li>Reach out with a short introduction and your strengths or goals.</li>
+            <li>Agree on a first contribution and collaborate through the build.</li>
+          </ol>
+          <!-- Replace the placeholder destinations below with the real project repository and preferred contact method. -->
+          <div class="hero-actions">
+            <a class="button button-primary" href="https://github.com/YOUR-USERNAME/YOUR-REPO">GitHub repository <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="mailto:YOUR_EMAIL_ADDRESS">Contact the team</a>
+          </div>
+          <div class="link-placeholder"><strong>Customize before publishing:</strong> replace <code>YOUR-USERNAME/YOUR-REPO</code> and <code>YOUR_EMAIL_ADDRESS</code> with your project details.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section download" id="download" aria-labelledby="download-title">
+      <div class="wrap">
+        <span class="eyebrow">Early access</span>
+        <h2 id="download-title">Start your healthier habits with TrackAI.</h2>
+        <p class="download-copy">TrackAI is under development. App store availability is coming soon; an Android build link is available for early testing.</p>
+        <div class="store-row" aria-label="App availability">
+          <div class="store-chip"><strong>▶ Google Play Store</strong><span>Coming soon</span></div>
+          <div class="store-chip"><strong>Apple App Store</strong><span>Coming soon</span></div>
+        </div>
+        <a class="button button-secondary" href="https://expo.dev/accounts/dhanushv3/projects/TrackAI/builds/3a7ce7f2-cdfd-4448-8cd1-84f0d5c50c76" target="_blank" rel="noopener noreferrer">View Android build <span aria-hidden="true">↗</span></a>
+        <p class="download-note">The build destination may change as development continues.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 13h4l2.1-6 3.8 11 2.1-5H20" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>TrackAI</a>
+      <span>A work in progress, built one thoughtful step at a time.</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
